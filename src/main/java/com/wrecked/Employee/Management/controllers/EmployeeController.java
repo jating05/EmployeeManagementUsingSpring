@@ -10,7 +10,7 @@ public class EmployeeController {
 
     @GetMapping
     public String getEmployee() {
-        return "Hello Employee";
+        return "Hello";
     }
 
     @PostMapping("/add")
