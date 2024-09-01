@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -69,13 +70,23 @@ public class EmployeeService {
 //        Optional<EmployeeEntity> employeeEntity = employeeRepository.findById(id);
 //        return employeeEntity.map(employeeEntity1 -> modelMapper.map(employeeEntity1, EmployeeDTO.class));
 //        Note: This  will also require the return datatype to be Optional type.
-
 //    }
-    public e
 
-    public List<EmployeeEntity> getAllEmployee(){
-//        List<EmployeeEntity> entities = employeeRepository.findAll().orElse(null);
-        return null;
+    public Optional<EmployeeDTO> getEmployeeById(Long employeeId){
+        Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findById(employeeId);
+        return optionalEmployeeEntity.map(employeeEntity -> modelMapper.map(employeeEntity, EmployeeDTO.class));
+
+    }
+
+    public List<EmployeeDTO> getAllEmployee(){
+        List<EmployeeEntity> entities = employeeRepository.findAll();
+        List<EmployeeDTO> dtoEntities = entities
+                .stream()
+                .map(oneEntity -> modelMapper.map(oneEntity, EmployeeDTO.class))
+                .collect(Collectors.toList());
+
+        return dtoEntities;
+
     }
 
 
