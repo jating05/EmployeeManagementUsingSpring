@@ -10,7 +10,7 @@ import lombok.*;
 @Entity
 @Table(name = "EmployeeTable")
 public class EmployeeEntity {
-    private  String Name;
+    private  String name;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
