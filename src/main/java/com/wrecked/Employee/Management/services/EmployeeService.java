@@ -3,7 +3,9 @@ import com.wrecked.Employee.Management.dto.EmployeeDTO;
 import com.wrecked.Employee.Management.entity.EmployeeEntity;
 import com.wrecked.Employee.Management.repositories.EmployeeRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 
 import java.util.List;
@@ -89,6 +91,40 @@ public class EmployeeService {
 
     }
 
+    public Boolean isExistByEmployeeId(Long employeeId){
+        return employeeRepository.existsById(employeeId);
+    }
+
+//    public Boolean deleteById(Long employeeId){
+//        Boolean isExist = isExistByEmployeeId(employeeId);
+//        if(!isExist) {
+//            throw new NoResourceFoundException("No such employee id exists to delete");
+//        }
+//    }
 
 
+    public EmployeeDTO EmployeeAdd(EmployeeDTO obj) {
+        System.out.println(obj.getId());
+//        Boolean isExist = isExistByEmployeeId(obj.getId());
+//        Question: How correct is this way of handling  exceptions.
+//        if(!isExist) throw new RuntimeException("Already employee wih given name exist, use put mapping to update");
+//        else{
+            EmployeeEntity toBeSaved = modelMapper.map(obj, EmployeeEntity.class);
+            EmployeeEntity savedEntity = employeeRepository.save(toBeSaved);
+            return modelMapper.map(savedEntity, EmployeeDTO.class);
+//        }
+    }
+
+    public EmployeeDTO updateEmployeeById(Long employeeId, EmployeeDTO obj){
+        boolean isExist = isExistByEmployeeId(obj.getId());
+        if(isExist){
+            EmployeeEntity objEntity = modelMapper.map(obj, EmployeeEntity.class);
+            objEntity.setId(employeeId);
+            EmployeeEntity savedEmp = employeeRepository.save(objEntity);
+            return modelMapper.map(savedEmp, EmployeeDTO.class);
+        }
+        else {
+            throw new RuntimeException("No such emp id exists to update");
+        }
+    }
 }

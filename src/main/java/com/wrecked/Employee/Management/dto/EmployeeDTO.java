@@ -17,7 +17,6 @@ import lombok.Setter;
 public class EmployeeDTO {
     //    @JsonProperty(value = "NName")
     private String name;
-    private String CCCC;
     private Long id;
     private Integer age;
     private Boolean isActive;
