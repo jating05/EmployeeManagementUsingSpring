@@ -1,4 +1,5 @@
 package com.wrecked.Employee.Management.services;
+import com.wrecked.Employee.Management.advice.CustomEx;
 import com.wrecked.Employee.Management.dto.EmployeeDTO;
 import com.wrecked.Employee.Management.entity.EmployeeEntity;
 import com.wrecked.Employee.Management.repositories.EmployeeRepository;
@@ -95,12 +96,12 @@ public class EmployeeService {
         return employeeRepository.existsById(employeeId);
     }
 
-//    public Boolean deleteById(Long employeeId){
-//        Boolean isExist = isExistByEmployeeId(employeeId);
+    public Boolean deleteById(Long employeeId){
+        Boolean isExist = isExistByEmployeeId(employeeId);
 //        if(!isExist) {
-//            throw new NoResourceFoundException("No such employee id exists to delete");
+            throw new RuntimeException("No such employee id exists to delete");
 //        }
-//    }
+    }
 
 
     public EmployeeDTO EmployeeAdd(EmployeeDTO obj) {
@@ -127,4 +128,11 @@ public class EmployeeService {
             throw new RuntimeException("No such emp id exists to update");
         }
     }
+
+//    Delete the below function after testing how excetpions work in java
+    public Optional<EmployeeDTO> testExceptionServiceInside() {
+//        throw new RuntimeException("This is a inside test exception");
+        throw new CustomEx("Hello from Service File");
+    }
+
 }
